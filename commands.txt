@@ -1,0 +1,4 @@
+sql migration command
+python manage.py db init
+python manage.py db migrate -m "comment"s
+python manage.py db upgrade
