@@ -1,2 +1,2 @@
-# gftest
-test gf card
+testing gf
+
