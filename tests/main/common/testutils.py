@@ -1,6 +1,5 @@
 import unittest
 from app.main.common.utils import Utils
-from app.models import CardDenomination
 from app import create_app, db
 
 class UtilsTestCase(unittest.TestCase):
@@ -29,5 +28,15 @@ class UtilsTestCase(unittest.TestCase):
         self.assertTrue(Utils.validate_hash('f40b6cfbb93ce812fa9f92c2827543b7', "c74501e2-3910-4d8e-9192-98f67bdefe69", "A1dy1gV6Ri12H13B", ""))
 
     def test_getDenomiation(self):
-        print(CardDenomination.query.filter_by(code='10').first().id)
-        print(Utils.getDenominationId('10'))
+        self.assertEquals(1, Utils.getDenominationId('10'))
+
+    def test_generate_uuid(self):
+        tempuuid = Utils.generate_uuid()
+        print(tempuuid)
+        self.assertIsNotNone(tempuuid)
+
+    def test_redis_add(self):
+        Utils.redis_add()
+
+if __name__ == '__main__':
+    unittest.main()

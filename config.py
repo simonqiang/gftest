@@ -23,7 +23,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'mysql+pymysql://root:@localhost/unipin_test'
-    print(SQLALCHEMY_DATABASE_URI)
 
 
 class TestingConfig(Config):
@@ -34,7 +33,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+        'mysql+pymysql://root:@localhost/unipin_test'
 
 
 config = {

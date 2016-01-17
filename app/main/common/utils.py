@@ -1,5 +1,7 @@
-import hashlib, binascii
+import hashlib, uuid
 from app.models import CardDenomination
+import redis
+from app import redis1
 
 
 class Utils():
@@ -29,7 +31,7 @@ class Utils():
         m.update(count.encode())
         m.update(secret.encode())
         temphash = m.hexdigest()
-
+        print(temphash)
         return hash == temphash
 
     @staticmethod
@@ -39,3 +41,13 @@ class Utils():
         m.update(count.encode())
         m.update(secret.encode())
         return m.digest()
+
+    @staticmethod
+    def generate_uuid():
+        return str(uuid.uuid4())
+
+    @staticmethod
+    def redis_add():
+        redisinstance = redis.StrictRedis()
+        redisinstance.set('foo', 'bar')
+        print(str(redisinstance.get('foo')))

@@ -4,7 +4,6 @@ from ..models import User, CardDenomination
 from ..email import send_email
 from . import main
 from .forms import NameForm
-from .common.utils import Utils
 
 
 @main.route('/', methods=['GET', 'POST'])
