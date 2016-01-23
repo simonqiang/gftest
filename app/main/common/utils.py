@@ -1,6 +1,7 @@
 import hashlib, uuid
 from app.models import CardDenomination
-import redis
+from time import strftime, gmtime
+import redis, datetime
 from app import redis1
 
 
@@ -51,3 +52,8 @@ class Utils():
         redisinstance = redis.StrictRedis()
         redisinstance.set('foo', 'bar')
         print(str(redisinstance.get('foo')))
+
+    @staticmethod
+    def generate_skuCode_prefix(skuCode):
+        now = datetime.datetime.utcnow()
+        return strftime('%y%m', gmtime()) + skuCode

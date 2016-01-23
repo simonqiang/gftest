@@ -1,6 +1,7 @@
-import unittest
+import unittest, datetime
 from app.main.common.utils import Utils
 from app import create_app, db
+from app.models import CardGiftCard, CardDenomination
 
 class UtilsTestCase(unittest.TestCase):
     def setUp(self):
@@ -37,6 +38,42 @@ class UtilsTestCase(unittest.TestCase):
 
     def test_redis_add(self):
         Utils.redis_add()
+
+    def test_mode_giftcard(self):
+        giftcard = CardGiftCard()
+        giftcard.gfSerial = 'serial1'
+        giftcard.gfPin = 'pin1'
+        giftcard.gfConsumed_dt = datetime.datetime.now()
+        giftcard.gfConsumed_dt = datetime.datetime.now()
+        giftcard.gfReference = 'reference1'
+        giftcard.gfStatus = 'X'
+        giftcard.gfSKU = 'SKU1'
+        giftcard.gfDenom_id = 1
+
+        giftcard2 = CardGiftCard()
+        giftcard2.gfSerial = 'serial2'
+        giftcard2.gfPin = 'pin2'
+        giftcard2.gfConsumed_dt = datetime.datetime.now()
+        giftcard2.gfConsumed_dt = datetime.datetime.now()
+        giftcard2.gfReference = 'reference2'
+        giftcard2.gfStatus = 'X'
+        giftcard2.gfSKU = 'SKU2'
+        giftcard2.gfDenom_id = 1
+        db.session().add(giftcard)
+        db.session().add(giftcard2)
+        db.session().commit()
+
+    def test_mode_giftcard_select(self):
+        sku_list = CardGiftCard.query.filter_by(gfDenom_id=1).all()
+        print(sku_list[0].gfSerial)
+
+    def test_mode_cardDenimination(self):
+        cardDenom = CardDenomination.query.filter_by(serialCode='UPGC1S').all()
+        print(cardDenom[0].id)
+
+    def test_generate_sku_prefix(self):
+        print(Utils.generate_skuCode_prefix('UP010'))
+
 
 if __name__ == '__main__':
     unittest.main()

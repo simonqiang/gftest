@@ -13,21 +13,49 @@ class RedisHelper():
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         return str(r.rpop(name_list), encoding='UTF-8')
 
-
-    def redis_sadd(self, name_list, list):
+    def redis_sadd(self, name_sets, list):
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
-        r.sadd(name_list, *list)
+        r.sadd(name_sets, *list)
 
-    def redis_srandmember(self, name_list, count):
+    def redis_srandmember(self, name_sets, count):
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
-        return r.srandmember(name_list, count)
+        return r.srandmember(name_sets, count)
 
-    def redis_spop(self, name_list, count):
+    def redis_spop_str(self, name_sets, count):
+        mylist = self.redis_spop(name_sets, count)
+
+        # convert byte to string
+        for i in range(len(mylist)):
+            mylist[i] = str(mylist[i], encoding='UTF-8')
+
+        return mylist
+
+    def redis_spop(self, name_sets, count):
         # r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         # return r.spop(name_list)
         pool = redis.ConnectionPool(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         r = redis.Redis(connection_pool=pool)
         pipe = r.pipeline()
         for index in range(count):
-            pipe.spop(name_list)
+            pipe.spop(name_sets)
         return pipe.execute()
+
+    def redis_scard(self, name_sets):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        return int(r.scard(name_sets))
+
+    def redis_set(self, name_index, value):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        r.set(name_index, value)
+
+    def redis_get(self, name_index):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        return str(r.get(name_index), encoding='UTF-8')
+
+    def redis_set_expire(self, name_index, value, expire):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        r.set(name_index, value, expire)
+
+    def redis_inc(self, name_index, amount):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        return r.incr(name_index, amount)

@@ -13,6 +13,8 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    SERIAL_CODES = ['UPGC1S', 'UPGC2S', 'UPGC3S', 'UPGC4S', 'UPGC5S', 'UPGC6S']
+    SKU_CODES = ['UP010', 'UP020', 'UP050', 'UP100', 'UP300', 'UP500']
 
     @staticmethod
     def init_app(app):
