@@ -1,5 +1,6 @@
 import unittest
 from app.main.common.RedisHelper import RedisHelper
+from app.main.jobs.giftCardSchedule import GiftCardSchedule
 
 class RedisHelperTestCase(unittest.TestCase):
     def test_redis_srandmember(self):
@@ -37,6 +38,20 @@ class RedisHelperTestCase(unittest.TestCase):
         self.assertEqual(10, redisHelper.redis_inc('index1', 10))
         self.assertEqual(10, int(redisHelper.redis_get('index1')))
 
+    def test_get_flag(self):
+        redisHelper = RedisHelper()
+        if redisHelper.redis_get('liuqiang_flag'):
+            print("there is something")
+        else:
+            print("there is None")
+
+    def test_set_flag(self):
+        redisHelper = RedisHelper()
+        redisHelper.redis_set_expire('liuqiang_flag', 1, 5)
+
+    def test_schedule(self):
+        giftCardSchedule = GiftCardSchedule()
+        giftCardSchedule.test()
 
 if __name__ == '__main__':
     unittest.main()

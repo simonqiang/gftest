@@ -21,9 +21,9 @@ class Utils():
             return False
 
     @staticmethod
-    def getDenominationId(param):
+    def getCardDenomination(param):
         denomination = CardDenomination.query.filter_by(code=param).first()
-        return denomination.id
+        return denomination
 
     @staticmethod
     def validate_hash(hash, denomination_code, count, secret):

@@ -74,6 +74,28 @@ class UtilsTestCase(unittest.TestCase):
     def test_generate_sku_prefix(self):
         print(Utils.generate_skuCode_prefix('UP010'))
 
+    def test_query_demonation(self):
+        for i in range(10):
+            print(Utils.getCardDenomination('UP500'))
+
+        tempvalue = '27'
+        giftcard = CardGiftCard()
+        giftcard.gfSerial = tempvalue
+        giftcard.gfPin = tempvalue
+        giftcard.gfConsumed_dt = datetime.datetime.utcnow()
+        giftcard.gfCreate_dt = datetime.datetime.utcnow()
+        giftcard.gfReference = tempvalue
+        giftcard.gfStatus = 'X'
+        giftcard.gfSKU = tempvalue
+        giftcard.gfDenom_id = 6
+        db.session.add(giftcard)
+
+        db.session.commit()
+        # db.session.close()
+
+        for i in range(100):
+            print(Utils.getCardDenomination('UP500'))
+
 
 if __name__ == '__main__':
     unittest.main()

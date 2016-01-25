@@ -11,6 +11,9 @@ class GiftCardCodeHelper():
     giftcard_list = '-giftcard_serial_list'
     giftcard_sets = '-giftcard_serial_sets'
     giftcard_flag = '-giftcard_serial_flag'
+    giftcard_min_count = 30
+    giftcard_generation_count = 100
+    giftcard_generation_max = 99999999
 
     # function to generates the serial
     # return a list of the serial
@@ -43,12 +46,17 @@ class GiftCardCodeHelper():
         if denomination and len(denomination) >= 1:
             return denomination[0].id
 
-    def get_denomination_skuCode(self, serialCode):
-        denomination = CardDenomination.query.filter_by(serialCode=serialCode).all()
+    def get_denomination_serialCode(self, code):
+        denomination = CardDenomination.query.filter_by(code=code).all()
+        if denomination and len(denomination) >= 1:
+            return denomination[0].serialCode
+
+    def get_denomination_skuCode(self, code):
+        denomination = CardDenomination.query.filter_by(code=code).all()
         if denomination and len(denomination) >= 1:
             return denomination[0].skuCode
 
-    def retrive_and_insert_to_db(self, serial_count, sku_start, serialCode, reference):
+    def retrive_and_insert_to_db(self, serial_count, sku_start, serialCode, skuCode, reference):
         reddisHelper = RedisHelper()
 
         # get serial list
@@ -56,14 +64,14 @@ class GiftCardCodeHelper():
 
         denomination_id = self.get_denomination_id(serialCode)
 
-        sku_prefix = Utils.generate_skuCode_prefix(self.get_denomination_id(serialCode))
+        sku_prefix = Utils.generate_skuCode_prefix(skuCode)
 
         current_time = datetime.datetime.utcnow()
         sku_count = 0
         for i in range(len(serial_list)):
             giftcard = CardGiftCard()
             giftcard.gfSerial = serial_list[i]
-            giftcard.gfPin = Utils.generate_pin()
+            giftcard.gfPin = self.generate_pin()
             giftcard.gfConsumed_dt = current_time
             giftcard.gfCreate_dt = current_time
             giftcard.gfReference = reference
@@ -74,3 +82,4 @@ class GiftCardCodeHelper():
             db.session.add(giftcard)
 
         db.session.commit()
+        db.session.close()

@@ -44,13 +44,21 @@ class RedisHelper():
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         return int(r.scard(name_sets))
 
+    def redis_delete(self, name_index):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        r.delete(name_index)
+
     def redis_set(self, name_index, value):
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         r.set(name_index, value)
 
-    def redis_get(self, name_index):
+    def redis_get_str(self, name_index):
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
         return str(r.get(name_index), encoding='UTF-8')
+
+    def redis_get(self, name_index):
+        r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
+        return r.get(name_index)
 
     def redis_set_expire(self, name_index, value, expire):
         r = redis.StrictRedis(host=app.config['REDIS_HOST'], port=app.config['REDIS_PORT'])
