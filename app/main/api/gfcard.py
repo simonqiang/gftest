@@ -3,7 +3,7 @@ from ..common.utils import Utils
 from ..common.GiftCardCodeHelper import GiftCardCodeHelper
 from app import db
 from manage import app
-import sys, logging
+import sys, logging, traceback
 from config import Config
 
 
@@ -59,7 +59,7 @@ class GiftCard(Resource):
         except:
             app.logger.error('serial_code : ' + serialCode + ' reference : ' + reference_value)
             db.session.close()
-            e = sys.exc_info()[0]
-            return {'error ': str(e)}
+            traceback.print_exc()
+            return {'error ': str(sys.exc_info()[0])}
 
         return {'reference': reference_value, 'status': 200}
