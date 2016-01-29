@@ -73,6 +73,7 @@ class GiftCardCodeHelper():
             giftcard = CardGiftCard()
             giftcard.gfSerial = serial_list[i]
             giftcard.gfPin = self.generate_pin()
+            giftcard.gfConsumed_dt = '0000-00-00 00:00:00'
             giftcard.gfCreate_dt = current_time
             giftcard.gfReference = reference
             giftcard.gfStatus = 'X'
