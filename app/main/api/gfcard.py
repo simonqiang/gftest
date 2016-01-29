@@ -4,6 +4,7 @@ from ..common.GiftCardCodeHelper import GiftCardCodeHelper
 from app import db
 from manage import app
 import sys, logging
+from config import Config
 
 
 TODOS = {
@@ -32,7 +33,7 @@ class GiftCard(Resource):
                 return 'invalid count', 200
 
             # validate hash
-            if not Utils.validate_hash(hash, denomination_code, count, ''):
+            if not Utils.validate_hash(hash, denomination_code, count, Config.GIFTCARD_SECRET_KEY):
                 return 'invalid hash code', 200
 
             giftCardCodeHelper = GiftCardCodeHelper()

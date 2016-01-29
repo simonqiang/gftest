@@ -3,6 +3,7 @@ from .RedisHelper import RedisHelper
 from app.models import CardDenomination, CardGiftCard
 from app import db
 from .utils import Utils
+from config import Config
 
 
 class GiftCardCodeHelper():
@@ -11,9 +12,9 @@ class GiftCardCodeHelper():
     giftcard_list = '-giftcard_serial_list'
     giftcard_sets = '-giftcard_serial_sets'
     giftcard_flag = '-giftcard_serial_flag'
-    giftcard_min_count = 30
-    giftcard_generation_count = 100
-    giftcard_generation_max = 99999999
+    giftcard_min_count = Config.GIFTCARD_MIN_COUNT
+    giftcard_generation_count = Config.GIFTCARD_GENERATION_COUNT
+    giftcard_generation_max = Config.GIFTCARD_GENERATION_MAX
 
     # function to generates the serial
     # return a list of the serial

@@ -3,18 +3,21 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
-    SQLALCHEMY_COMMIT_ON_TEARDOWN = True
-    MAIL_SERVER = 'smtp.googlemail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
-    FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    # SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    # SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    # MAIL_SERVER = 'smtp.googlemail.com'
+    # MAIL_PORT = 587
+    # MAIL_USE_TLS = True
+    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    # FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
+    # FLASKY_MAIL_SENDER = 'Flasky Admin <flasky@example.com>'
+    # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SERIAL_CODES = ['UPGC1S', 'UPGC2S', 'UPGC3S', 'UPGC4S', 'UPGC5S', 'UPGC6S']
-    SKU_CODES = ['UP010', 'UP020', 'UP050', 'UP100', 'UP300', 'UP500']
+    GIFTCARD_SECRET_KEY = 'something'
+    GIFTCARD_MIN_COUNT = 300000
+    GIFTCARD_GENERATION_COUNT = 1000000
+    GIFTCARD_GENERATION_MAX = 99999999
 
     @staticmethod
     def init_app(app):
