@@ -77,7 +77,7 @@ class GiftCardCodeHelper():
             giftcard.gfCreate_dt = current_time
             giftcard.gfReference = reference
             giftcard.gfStatus = 'X'
-            giftcard.gfSKU = sku_prefix + str(sku_start + sku_count)
+            giftcard.gfSKU = sku_prefix + str(sku_start + sku_count).zfill(6)
             giftcard.gfDenom_id = denomination_id
             sku_count += 1
             db.session.add(giftcard)
