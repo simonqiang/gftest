@@ -21,11 +21,14 @@ class GiftCardSchedule(object):
                         giftCardCodeHelper.giftcard_prefix + serial_code + giftCardCodeHelper.giftcard_list)
                     if current_count <= giftCardCodeHelper.giftcard_min_count:
                         # if the index is None or index + generration cout is bigger than 99999999 set index to 1
-                        index = int(redisHelper.redis_get(
-                            giftCardCodeHelper.giftcard_prefix + serial_code + giftCardCodeHelper.giftcard_serial_index))
-                        if not index or (
+                        index = redisHelper.redis_get(
+                            giftCardCodeHelper.giftcard_prefix + serial_code + giftCardCodeHelper.giftcard_serial_index)
+                        if not index:
+                            index = 1
+
+                        if (
                                 index + giftCardCodeHelper.giftcard_generation_count > giftCardCodeHelper.giftcard_generation_max):
-                            index = 1;
+                            index = 1
 
                         redisHelper.redis_inc(
                             giftCardCodeHelper.giftcard_prefix + serial_code + giftCardCodeHelper.giftcard_serial_index,

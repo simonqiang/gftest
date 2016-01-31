@@ -2,3 +2,64 @@ sql migration command
 python manage.py db init
 python manage.py db migrate -m "comment"
 python manage.py db upgrade
+
+
+gunicorn --bind 0.0.0.0:5000 wsgi:app
+
+production server setup
+# Dependencies
+RUN yum groupinstall -y "Development tools"
+RUN yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline
+RUN yum install -y tar
+
+# Python 3.4.2
+WORKDIR /usr/local/src
+RUN curl -O https://www.python.org/ftp/python/3.4.2/Python-3.4.2.tgz
+RUN tar -xvzf Python-3.4.2.tgz
+
+WORKDIR /usr/local/src/Python-3.4.2
+RUN ./configure --enable-shared --prefix=/usr/local LDFLAGS="-Wl,-rpath /usr/local/lib"
+RUN make
+RUN make altinstall
+
+
+#create virualenv with python 3.4
+pyvenv-3.4  /home/qiang/gftest/projectenv
+
+pip install gunicorn
+
+=================================================
+create /etc/systemd/system/giftcard.service
+=================================================
+[Unit]
+Description=Gunicorn instance to serve myproject
+After=network.target
+
+[Service]
+User=user
+Group=nginx
+WorkingDirectory=/home/qiang/giftcard/gftest
+Environment="PATH=/home/qiang/giftcard/gftest/projectenv/bin"
+ExecStart=/home/qiang/giftcard/gftest/projectenv/bin/gunicorn --bind unix:gftest.sock -m 777 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
+==================================================
+
+sudo systemctl start giftcard.service
+
+vi /etc/nginx/nginx.conf
+==================================================
+edit at location
+==================================================
+location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/home/qiang/giftcard/gftest/giftcard.sock;
+    }
+=====================================================================
+
+
+systemctl retart nginx

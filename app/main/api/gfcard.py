@@ -3,20 +3,8 @@ from ..common.utils import Utils
 from ..common.GiftCardCodeHelper import GiftCardCodeHelper
 from app import db
 from manage import app
-import sys, logging, traceback
+import sys, traceback
 from config import Config
-
-
-TODOS = {
-    'todo1': {'task': 'build an API'},
-    'todo2': {'task': '?????'},
-    'todo3': {'task': 'profit!'},
-}
-
-result = {
-    'reference': ''
-}
-
 
 class GiftCard(Resource):
     def post(self):
@@ -37,7 +25,7 @@ class GiftCard(Resource):
                 return 'invalid hash code', 200
 
             giftCardCodeHelper = GiftCardCodeHelper()
-            # query denomination id\
+            # query denomination id
             serialCode = giftCardCodeHelper.get_denomination_serialCode(denomination_code)
             skuCode = giftCardCodeHelper.get_denomination_skuCode(denomination_code)
 

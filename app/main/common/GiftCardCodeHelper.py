@@ -48,7 +48,8 @@ class GiftCardCodeHelper():
             return denomination[0].id
 
     def get_denomination_serialCode(self, code):
-        denomination = CardDenomination.query.filter_by(code=code).all()
+        # denomination = CardDenomination.query.filter_by(code=code).all()
+        denomination = db.session.query(CardDenomination).filter_by(code=code).all()
         if denomination and len(denomination) >= 1:
             return denomination[0].serialCode
 
