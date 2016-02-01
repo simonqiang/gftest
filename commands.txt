@@ -46,7 +46,14 @@ ExecStart=/home/qiang/giftcard/gftest/projectenv/bin/gunicorn --bind unix:gftest
 WantedBy=multi-user.target
 ==================================================
 
-sudo systemctl start giftcard.service
+sudo systemctl start giftcard
+sudo systemctl enable giftcard
+
+install nginx
+
+yum install epel-release
+sudo yum install python-pip python-devel gcc nginx
+
 
 vi /etc/nginx/nginx.conf
 ==================================================
